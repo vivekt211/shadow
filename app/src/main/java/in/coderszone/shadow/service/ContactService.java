@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -26,6 +25,11 @@ public class ContactService extends Service {
 
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return START_STICKY;
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         App.getAppComponent().inject(this);
@@ -34,6 +38,8 @@ public class ContactService extends Service {
         intentFilter.addAction(Intent.ACTION_USER_PRESENT);
         mReceiver = new LockUnockBroadcastReciever();
         registerReceiver(mReceiver, intentFilter);
+
+
     }
 
 
@@ -41,7 +47,7 @@ public class ContactService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
 
-        Toast.makeText(appContext,"service ONBind (((",Toast.LENGTH_LONG).show();
+        //Toast.makeText(appContext,"service ONBind (((",Toast.LENGTH_LONG).show();
         return null;
 
     }
@@ -49,14 +55,14 @@ public class ContactService extends Service {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        Toast.makeText(appContext,"service ON UNBind (((",Toast.LENGTH_LONG).show();
+        //Toast.makeText(appContext,"service ON UNBind (((",Toast.LENGTH_LONG).show();
         return super.onUnbind(intent);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(appContext,"service Destroyed",Toast.LENGTH_LONG).show();
+        //Toast.makeText(appContext,"service Destroyed",Toast.LENGTH_LONG).show();
         unregisterReceiver(mReceiver);
     }
 }
